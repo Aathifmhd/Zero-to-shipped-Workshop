@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 
-const MAX_MB = 5;
+const MAX_MB = 4;
 
 export default function UploadForm({ onAnalyze, loading, error }) {
   const [file, setFile] = useState(null);

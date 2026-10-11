@@ -27,10 +27,21 @@ scores resumes, it just doesn't save them. `frontend/public/sample-resume.pdf` i
 
 ## API
 
-- `POST /api/resume/analyze` — multipart: `resume` (PDF, max 5 MB), `jobDescription` (text) →
+- `POST /api/resume/analyze` — multipart: `resume` (PDF, max 4 MB), `jobDescription` (text) →
   `{ id, fileName, score, matchedSkills, missingSkills, extraSkills }`
 - `GET /api/resume/history` — last 20 saved analyses
 - `GET /api/health`
+
+## Deploy to Vercel (two projects, same repo)
+
+1. **Backend** — new project, Root Directory `backend`. Env vars:
+   - `MONGODB_URI` — MongoDB Atlas connection string (allow access from `0.0.0.0/0` in Atlas)
+   - `CLIENT_URL` — the frontend's URL, e.g. `https://your-frontend.vercel.app` (comma-separate several)
+2. **Frontend** — new project, Root Directory `frontend`. Env var:
+   - `VITE_API_URL` — the backend's URL, e.g. `https://your-backend.vercel.app`
+
+Deploy the backend first so you have its URL, then the frontend, then set the backend's
+`CLIENT_URL` to the frontend URL and redeploy the backend.
 
 ## AI (next step)
 

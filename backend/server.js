@@ -11,14 +11,23 @@ const app = express();
 app.use(cors({ origin: config.clientUrl }));
 app.use(express.json());
 
+// Connect lazily so serverless cold starts (Vercel) reuse one cached connection.
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
+
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));
 app.use('/api/resume', resumeRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
 
-await connectDB();
+// On Vercel the app is exported as a serverless function; locally we listen on a port.
+if (!process.env.VERCEL) {
+  app.listen(config.port, () => {
+    console.log(`Server running on http://localhost:${config.port}`);
+  });
+}
 
-app.listen(config.port, () => {
-  console.log(`Server running on http://localhost:${config.port}`);
-});
+export default app;
