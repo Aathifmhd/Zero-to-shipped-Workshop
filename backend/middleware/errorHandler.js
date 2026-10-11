@@ -1,5 +1,6 @@
 import multer from 'multer';
 import { config } from '../config/index.js';
+import { HttpError } from '../utils.js';
 
 export function notFound(req, res) {
   res.status(404).json({ error: `Route not found: ${req.method} ${req.originalUrl}` });
@@ -17,5 +18,7 @@ export function errorHandler(err, req, res, next) {
 
   const status = err.status || 500;
   if (status >= 500) console.error(err);
-  res.status(status).json({ error: status >= 500 ? 'Something went wrong.' : err.message });
+  // HttpError messages are written for users; hide everything else.
+  const expose = err instanceof HttpError || status < 500;
+  res.status(status).json({ error: expose ? err.message : 'Something went wrong.' });
 }

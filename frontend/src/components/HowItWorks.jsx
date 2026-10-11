@@ -1,7 +1,7 @@
 const STEPS = [
   { icon: '📄', title: 'Upload', text: 'Drop in your resume as a PDF — we read the text straight out of it.' },
   { icon: '📋', title: 'Paste the JD', text: 'Add the job description you are applying for.' },
-  { icon: '📊', title: 'Get your score', text: 'See your match score plus the skills you have and the ones you are missing.' },
+  { icon: '✨', title: 'Get your score', text: 'Claude scores the match and shows the skills you have, the ones you are missing, and how to improve.' },
 ];
 
 export default function HowItWorks() {

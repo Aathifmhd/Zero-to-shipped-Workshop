@@ -25,8 +25,22 @@ function SkillList({ title, skills, tone, empty }) {
   );
 }
 
+function PointList({ title, points }) {
+  if (!points?.length) return null;
+  return (
+    <div className="card skill-card">
+      <h3>{title}</h3>
+      <ul className="points">
+        {points.map((p) => (
+          <li key={p}>{p}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function Results({ result }) {
-  const { score, matchedSkills, missingSkills, fileName } = result;
+  const { score, summary, matchedSkills, missingSkills, strengths, improvements, fileName, method } = result;
   const v = verdict(score);
 
   return (
@@ -34,8 +48,12 @@ export default function Results({ result }) {
       <div className="card score-card">
         <ScoreRing score={score} tone={v.tone} />
         <div>
-          <span className={`pill pill-${v.tone}`}>{v.label}</span>
+          <div className="pills">
+            <span className={`pill pill-${v.tone}`}>{v.label}</span>
+            <span className="pill pill-method">{method === 'ai' ? '✨ Analyzed by Claude' : 'Keyword match'}</span>
+          </div>
           <h2>Your resume matches {score}% of this job</h2>
+          {summary && <p className="summary">{summary}</p>}
           <p className="muted">
             {fileName} · {matchedSkills.length} of {matchedSkills.length + missingSkills.length} required skills found
           </p>
@@ -55,6 +73,8 @@ export default function Results({ result }) {
           tone="bad"
           empty="Nothing missing — you cover every skill in this job description!"
         />
+        <PointList title="💪 Strengths" points={strengths} />
+        <PointList title="🛠️ How to improve" points={improvements} />
       </div>
     </div>
   );

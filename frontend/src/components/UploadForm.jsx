@@ -86,7 +86,7 @@ export default function UploadForm({ onAnalyze, loading, error }) {
       {shownError && <p className="error">⚠️ {shownError}</p>}
 
       <button type="submit" className="btn btn-block" disabled={loading}>
-        {loading ? <><span className="spinner" /> Analyzing…</> : 'Analyze resume'}
+        {loading ? <><span className="spinner" /> Analyzing… this can take up to a minute</> : 'Analyze resume'}
       </button>
     </form>
   );
